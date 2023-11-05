@@ -3,3 +3,7 @@
 # Members
  - 유의진 해양융합공학과 dbdmlwls1224@naver.com
  - 윤정상 해양융합공학과 jeongsang9907@gmail.com
+# Index
+# Proposal (option A)
+## Motivation
+## Goal
