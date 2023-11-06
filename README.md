@@ -7,10 +7,11 @@
 ## Ⅰ. Proposal
 - Motivation
 - Goal
-## Ⅱ. Dataset
-## Ⅲ. Method
+## Ⅱ. Datasets
+## Ⅲ. Methodology
 ## Ⅳ. Evaluation & Analysis
-## Ⅴ. Conclusion
+## Ⅴ. Related Work
+## Ⅵ. Conclusion: Discussion
 # Ⅰ. Proposal (option A)
 ## Motivation
 호흡기 질환에 있어 청진은 필수적인 검사입니다. 이는 비침습적이고 실시간이기 때문에 호흡기 질환의 진단과 진찰에 있어 유리합니다. 그러나 호흡음에 대한 정확한 해석은 임상의의 상당한 전문성을 요구하고 인턴이나 레지던트 등 실습생이 호흡음을 오인하는 경우도 발생합니다. 이러한 한계를 극복하기 위해 임상환경에서의 CNN  (Convolutional Neural Network)을 이용한 호흡음 자동 분류 알고리즘 개발이 진행되고 있습니다. 딥러닝 기반 호흡음 자동 분류는 임상의의 청진 부정확성을 보완할 수 있을 것이며, 호흡기 질환의 신속한 진단과 적절한 치료에 도움이 될 것이라고 생각하였습니다. 저희는 딥러닝 기반 호흡음 자동 분류를 통해 다양한 호흡기 질환 진단을 목표로 CNN 기반 호흡음 자동 분류 논문을 참고하여 모델을 구현하려고 하였습니다.
