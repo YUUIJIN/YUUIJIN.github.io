@@ -36,7 +36,9 @@
 
 -  df_no_diagnosis: 환자번호 + 질병 외의 정보
 -  diagnosis: 환자 번호 + 질병 정보
-
+-  위 두 변수를 환자 번호 기준으로 합침
+  
        df_no_diagnosis = pd.read_csv('Respiratory_Sound_Database/demographic_info.txt', names = ['Patient number', 'Age', 'Sex', 'Adult BMI(kg/m^2)', 'Child Weight(kg)','Child Height(cm)'], delimiter = ' ')
        diagnosis = pd.read_csv('Respiratory_Sound_Database/patient_diagnosis.csv', names = ['Patient number', 'Diagnosis'])
 
+![image](https://github.com/YUUIJIN/YUUIJIN.github.io/assets/134063047/f1f0911f-6b8f-4e11-94d3-305f98f0c0a2)
