@@ -20,7 +20,7 @@
 # Ⅱ. Datasets
 # Ⅲ. Methodology
 # Ⅳ. Evaluation & Analysis
-## Overview
+## 1. Overview
 - 분석에 기본적으로 필요한 파이썬 라이브러리를 가져옵니다.
   
       import wave
@@ -71,6 +71,29 @@
        recording_info = pd.concat(i_list, axis = 0)
        recording_info.head()
 
+![image](https://github.com/YUUIJIN/YUUIJIN.github.io/assets/134063047/bf0ac7cd-094e-44c2-ba39-4e46b21ab196)
 
-
+- 환자별 호흡 파일에서 호흡 소리 중 crackle과 wheeze의 정보를 파악한 후, 데이터를 나열화합니다.
+- no_label_list: crackle과 wheeze 둘 다 없는 호흡
+- crack_list: crack만 있는 호흡
+- wheeze_list: wheeze만 있는 호흡
+- both_sym_list: 둘 다 있는 호흡
   
+      no_label_list = []
+      crack_list = []
+      wheeze_list = []
+      both_sym_list = []
+      filename_list = []
+      for f in filenames:
+          d = rec_annotations_dict[f]
+          no_labels = len(d[(d['Crackles'] == 0) & (d['Wheezes'] == 0)].index)
+          n_crackles = len(d[(d['Crackles'] == 1) & (d['Wheezes'] == 0)].index)
+          n_wheezes = len(d[(d['Crackles'] == 0) & (d['Wheezes'] ==1)].index)
+          both_sym = len(d[(d['Crackles'] == 1) & (d['Wheezes'] == 1)].index)
+          no_label_list.append(no_labels)
+          crack_list.append(n_crackles)
+          wheeze_list.append(n_wheezes)
+          both_sym_list.append(both_sym)
+          filename_list.append(f)
+      file_label_df = pd.DataFrame(data = {'filename':filename_list, 'no label':no_label_list, 'crackles only':crack_list, 
+                                     'wheezes only':wheeze_list, 'crackles and wheezees':both_sym_list})
