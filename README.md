@@ -97,3 +97,4 @@
           filename_list.append(f)
       file_label_df = pd.DataFrame(data = {'filename':filename_list, 'no label':no_label_list, 'crackles only':crack_list, 
                                      'wheezes only':wheeze_list, 'crackles and wheezees':both_sym_list})
+![image](https://github.com/YUUIJIN/YUUIJIN.github.io/assets/134063047/aa087064-7b09-4471-ae2b-1cde42521e98)
