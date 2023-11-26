@@ -30,15 +30,47 @@
       import os
       %matplotlib inline
   
-- 데이터셋이 들어있는 파일을 확인합니다
+- 데이터셋이 들어있는 파일을 확인합니다.
 
       os.listdir('Respiratory_Sound_Database')
 
 -  df_no_diagnosis: 환자번호 + 질병 외의 정보
 -  diagnosis: 환자 번호 + 질병 정보
--  위 두 변수를 환자 번호 기준으로 합침
+-  df: 위 두 변수를 환자 번호 기준으로 합침
   
        df_no_diagnosis = pd.read_csv('Respiratory_Sound_Database/demographic_info.txt', names = ['Patient number', 'Age', 'Sex', 'Adult BMI(kg/m^2)', 'Child Weight(kg)','Child Height(cm)'], delimiter = ' ')
        diagnosis = pd.read_csv('Respiratory_Sound_Database/patient_diagnosis.csv', names = ['Patient number', 'Diagnosis'])
+       df = df_no_diagnosis.join(diagnosis.set_index('Patient number'), on = 'Patient number', how = 'left')
 
 ![image](https://github.com/YUUIJIN/YUUIJIN.github.io/assets/134063047/f1f0911f-6b8f-4e11-94d3-305f98f0c0a2)
+
+- df에서 각 질병 빈도수를 counting 합니다.
+  
+       df['Diagnosis'].value_counts()
+
+- txt 파일로 되어있는 audio 파일을 전처리합니다.
+- filenames: 확장자 제거 후 list에 저장
+- Extract_Annotation_Data: 파일 이름과 파일 주소를 가져와 데이터를 추출하는 함수
+  
+       root = 'Respiratory_sound_Database/audio_and_txt_files'
+       filenames = [s.split('.')[0] for s in os.listdir(path = root) if '.txt' in s]
+       def Extract_Annotation_Data(file_name, root):
+           tokens = file_name.split('_')
+           recording_info = pd.DataFrame(data = [tokens], columns = ['Patient number', 'Recording index', 'Chest location', 'Acquisition mode', 'Recording equipment'])
+           recording_annotations = pd.read_csv(os.path.join(root, file_name + '.txt'), names = ['Start', 'End', 'Crackles', 'Wheezes'],delimiter = '\t')
+        return (recording_info, recording_annotations)
+       i_list = []
+       rec_annotations = []
+       rec_annotations_dict = {}
+  
+       for s in filenames:
+           (i,a) = Extract_Annotation_Data(s,root)
+           i_list.append(i)
+           rec_annotations.append(a)
+           rec_annotations_dict[s] = a
+       recording_info = pd.concat(i_list, axis = 0)
+       recording_info.head()
+
+
+
+  
