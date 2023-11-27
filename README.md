@@ -43,10 +43,10 @@
 - 1864개 = Crackle <br/>
 - 886개 = Wheeze<br/>
 - 506개 = Crackle & Wheeze <br/>
-- 3642개 =  갖지 않는 호흡 <br/><br/>
-이때, crackle과 wheeze는 특징적인 호흡음으로, crackle은 수포음, wheeze는 천명(쇳소리)입니다. 
+- 3642개 =  No Crackle & Wheeze <br/>
+- Crackle = 수포음, Wheeze = 천명(쇳소리) 
 
-##### A. Audio Files (wav.)
+#### A. Audio Files (wav.)
 
 ![image](https://github.com/YUUIJIN/YUUIJIN.github.io/assets/149877341/b2fbad54-7467-44f9-b92c-7b6de3ed9a5c)
 
@@ -63,9 +63,25 @@
 이와 같이, 한 환자에서 여러 chest location이 있습니다. <br/>
 물론, 102번 환자처럼 chest location이 하나인 경우도 있습니다. <br/>
 이때, chest location은 청진기를 가져다 대는 부분을 의미합니다.
-##### B. Text Files (txt.)
+#### B. Text Files (txt.)
+
+![image](https://github.com/YUUIJIN/YUUIJIN.github.io/assets/149877341/fa48bc27-6c13-4a25-a5bf-542c8f546871)
+
+위 그림의 파일명은 101_1b1_AI_sc_Meditron 입니다. <br/>
+각 숫자가 의미하는 바는,
+[ 호흡주기 시작 / 호흡주기 종료 / Crackles 유무 / Wheeze 유무 ]<br/>
+이때, Crackle과 Wheeze의 유무는 0과 1로 나타내고 있습니다.
+
 
 ### 3. Patient Diagnosis
+
+![image](https://github.com/YUUIJIN/YUUIJIN.github.io/assets/149877341/3c901371-4f2c-45e9-bb38-0072485e0263)
+
+위 그림은 patient_diagnosis.xlsx로 환자번호별 진단명이며, 일부분을 표현하고 있습니다.
+
+![image](https://github.com/YUUIJIN/YUUIJIN.github.io/assets/149877341/b1487ed5-bb73-4406-9414-3000ca628a2a)
+
+진단명은 총 7가지가 있습니다. 
 
 # Ⅲ. Methodology
 # Ⅳ. Evaluation & Analysis
