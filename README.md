@@ -23,7 +23,48 @@
 ![image](https://github.com/YUUIJIN/YUUIJIN.github.io/assets/149877341/9135c1f2-4525-480c-8eea-94e8a1b4069b)
 
 ### 1. Demographic Info
+이는 text 파일로 된 환자 정보입니다. <br/>  환자번호 / 나이 / 성별 / Adult BMI(kg/m^2) / Child Weight(kg) / Child Height(cm)
+
+![image](https://github.com/YUUIJIN/YUUIJIN.github.io/assets/149877341/b4f94808-a1bf-42f3-a510-e3ab10cda052)
+
+2번 라인에서의 예시 <br/>
+[ 101번 환자 / 3살 / 여자 / 결측값 / 19kg / 99cm ]
+
 ### 2. Respiratory Sound Database
+
+![image](https://github.com/YUUIJIN/YUUIJIN.github.io/assets/149877341/ac44c8ce-d837-40eb-ac07-e9c8bfbb31a4)
+
+#### 1) Audio & Text Files
+
+![image](https://github.com/YUUIJIN/YUUIJIN.github.io/assets/149877341/25033a27-8df2-47e5-a26f-d6b8d757a5b0)
+
+우선, txt 파일과 wav 파일이 하나씩 쌍으로 있습니다. 총 920쌍으로 1840개의 데이터가 존재합니다. wav 파일은 10~90초 길이 사이의 랜덤하게 분포한 파일입니다. <br/>
+이 시간대에는 총 6898개의 호흡 주기가 있고, 분류는 다음과 같습니다. <br/> <br/>
+- 1864개 = Crackle <br/>
+- 886개 = Wheeze<br/>
+- 506개 = Crackle & Wheeze <br/>
+- 3642개 =  갖지 않는 호흡 <br/><br/>
+이때, crackle과 wheeze는 특징적인 호흡음으로, crackle은 수포음, wheeze는 천명(쇳소리)입니다. 
+
+##### A. Audio Files (wav.)
+
+![image](https://github.com/YUUIJIN/YUUIJIN.github.io/assets/149877341/b2fbad54-7467-44f9-b92c-7b6de3ed9a5c)
+
+[ 환자번호 _ recording index _ chest location _ 녹음 모드 _ 녹음 장비 ] <br/>
+위와 같이 파일명이 구성되어 있습니다.
+
+![image](https://github.com/YUUIJIN/YUUIJIN.github.io/assets/149877341/13ed2801-b39a-4268-abfe-c1f3e2c8034d)
+
+위 그림을 예시로 들자면, <br/>
+[ 101번 환자 _ 1b1 _ Anterior left _ 순차,단일 채널 _ Meditron ]
+
+![image](https://github.com/YUUIJIN/YUUIJIN.github.io/assets/149877341/194b7ea2-19d9-46db-b761-73be6d8c4f37)
+
+이와 같이, 한 환자에서 여러 chest location이 있습니다. <br/>
+물론, 102번 환자처럼 chest location이 하나인 경우도 있습니다. <br/>
+이때, chest location은 청진기를 가져다 대는 부분을 의미합니다.
+##### B. Text Files (txt.)
+
 ### 3. Patient Diagnosis
 
 # Ⅲ. Methodology
