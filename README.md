@@ -18,28 +18,36 @@
 ## Goal
 저희의 최종적인 목표는 딥러닝 분류 모델의 구조적 이해와 구현입니다. 저희가 음성 분류에 사용할 구조는 CNN(Convolution Neural Network)입니다. wav파일(음성 파일)이 CNN을 통해 학습되는 정확한 알고리즘의 이해에 초점을 맞추려 합니다. 또한 이러한 음성 처리는 신호 처리 과정이 포함되기에 Spectrogram이나 (예를 들어 MFCC(Mel-Frequency Cepstal Coeffcient)) FFT, Pwelch 등 기본적인 신호 처리 개념의 이해를 목적으로 합니다. 모델 구현을 위해 호흡음 분류에 사용되는 데이터셋인 디지털 청진기와 의학적 녹음 기술을 사용한 wav 파일, 환자 진단 list를 사용합니다. 환자 진단 list에는 각 환자별 천식, 폐렴, 기관지염과 같은 호흡기 질환들이 분류되어 있습니다. 데이터셋의 일부를 활용해 모델을 train하며 데이터셋의 나머지를 활용해 모델을 test할 계획입니다.
 # Ⅱ. Datasets
-## Download Dataset
+## 데이터셋은 코딩이 아닌 다운받은 원본 파일을 확인하는 식으로 보여드리겠습니다.
 
-![image](https://github.com/YUUIJIN/YUUIJIN.github.io/assets/149877341/9135c1f2-4525-480c-8eea-94e8a1b4069b)
+<div align="center">
+  <img src="https://github.com/YUUIJIN/YUUIJIN.github.io/assets/149877341/9135c1f2-4525-480c-8eea-94e8a1b4069b" alt="Image" width="60%" height="60%">
+</div>
 
 ### 1. Demographic Info
 이는 text 파일로 된 환자 정보입니다. <br/>  환자번호 / 나이 / 성별 / Adult BMI(kg/m^2) / Child Weight(kg) / Child Height(cm)
 
-![image](https://github.com/YUUIJIN/YUUIJIN.github.io/assets/149877341/b4f94808-a1bf-42f3-a510-e3ab10cda052)
+<div align="center">
+  <img src="https://github.com/YUUIJIN/YUUIJIN.github.io/assets/149877341/b4f94808-a1bf-42f3-a510-e3ab10cda052" alt="Image" width="20%" height="20%">
+</div>
 
 2번 라인에서의 예시 <br/>
 [ 101번 환자 / 3살 / 여자 / 결측값 / 19kg / 99cm ]
 
 ### 2. Respiratory Sound Database
 
-![image](https://github.com/YUUIJIN/YUUIJIN.github.io/assets/149877341/ac44c8ce-d837-40eb-ac07-e9c8bfbb31a4)
+<div align="center">
+  <img src="https://github.com/YUUIJIN/YUUIJIN.github.io/assets/149877341/ac44c8ce-d837-40eb-ac07-e9c8bfbb31a4" alt="Image" width="50%" height="50%">
+</div>
 
 #### 1) Audio & Text Files
 
-![image](https://github.com/YUUIJIN/YUUIJIN.github.io/assets/149877341/25033a27-8df2-47e5-a26f-d6b8d757a5b0)
+<div align="center">
+  <img src="https://github.com/YUUIJIN/YUUIJIN.github.io/assets/149877341/25033a27-8df2-47e5-a26f-d6b8d757a5b0" alt="Image" width="50%" height="50%">
+</div>
 
-우선, txt 파일과 wav 파일이 하나씩 쌍으로 있습니다. 총 920쌍으로 1840개의 데이터가 존재합니다. wav 파일은 10~90초 길이 사이의 랜덤하게 분포한 파일입니다. <br/>
-이 시간대에는 총 6898개의 호흡 주기가 있고, 분류는 다음과 같습니다. <br/> <br/>
+우선, txt 파일과 wav 파일이 하나씩 쌍으로 있습니다. 총 920쌍으로 1840개의 데이터가 존재합니다. <br/> wav 파일은 10~90초 길이 사이의 랜덤하게 분포한 파일입니다. <br/>
+이 시간대에는 총 6898개의 호흡 주기가 있고, 분류는 다음과 같습니다. <br/> 
 - 1864개 = Crackle <br/>
 - 886개 = Wheeze<br/>
 - 506개 = Crackle & Wheeze <br/>
@@ -48,38 +56,38 @@
 
 #### A. Audio Files (wav.)
 
-![image](https://github.com/YUUIJIN/YUUIJIN.github.io/assets/149877341/b2fbad54-7467-44f9-b92c-7b6de3ed9a5c)
+<div align="center">
+  <img src="https://github.com/YUUIJIN/YUUIJIN.github.io/assets/149877341/b2fbad54-7467-44f9-b92c-7b6de3ed9a5c" alt="Image" width="70%" height="70%">
+</div>
 
 [ 환자번호 _ recording index _ chest location _ 녹음 모드 _ 녹음 장비 ] <br/>
 위와 같이 파일명이 구성되어 있습니다.
-
-![image](https://github.com/YUUIJIN/YUUIJIN.github.io/assets/149877341/13ed2801-b39a-4268-abfe-c1f3e2c8034d)
+Chest location은 청진기를 가져다 대는 부분을 의미합니다.
 
 위 그림을 예시로 들자면, <br/>
 [ 101번 환자 _ 1b1 _ Anterior left _ 순차,단일 채널 _ Meditron ]
 
-![image](https://github.com/YUUIJIN/YUUIJIN.github.io/assets/149877341/194b7ea2-19d9-46db-b761-73be6d8c4f37)
-
-이와 같이, 한 환자에서 여러 chest location이 있습니다. <br/>
-물론, 102번 환자처럼 chest location이 하나인 경우도 있습니다. <br/>
-이때, chest location은 청진기를 가져다 대는 부분을 의미합니다.
 #### B. Text Files (txt.)
 
-![image](https://github.com/YUUIJIN/YUUIJIN.github.io/assets/149877341/fa48bc27-6c13-4a25-a5bf-542c8f546871)
+<div align="center">
+  <img src="https://github.com/YUUIJIN/YUUIJIN.github.io/assets/149877341/fa48bc27-6c13-4a25-a5bf-542c8f546871" alt="Image" width="20%" height="20%">
+</div>
 
-위 그림의 파일명은 101_1b1_AI_sc_Meditron 입니다. <br/>
-각 숫자가 의미하는 바는,
 [ 호흡주기 시작 / 호흡주기 종료 / Crackles 유무 / Wheeze 유무 ]<br/>
 이때, Crackle과 Wheeze의 유무는 0과 1로 나타내고 있습니다.
 
 
 ### 3. Patient Diagnosis
 
-![image](https://github.com/YUUIJIN/YUUIJIN.github.io/assets/149877341/3c901371-4f2c-45e9-bb38-0072485e0263)
+<div align="center">
+  <img src="https://github.com/YUUIJIN/YUUIJIN.github.io/assets/149877341/3c901371-4f2c-45e9-bb38-0072485e0263" alt="Image" width="20%" height="20%">
+</div>
 
 위 그림은 patient_diagnosis.xlsx로 환자번호별 진단명이며, 일부분을 표현하고 있습니다.
 
-![image](https://github.com/YUUIJIN/YUUIJIN.github.io/assets/149877341/b1487ed5-bb73-4406-9414-3000ca628a2a)
+<div align="center">
+  <img src="https://github.com/YUUIJIN/YUUIJIN.github.io/assets/149877341/b1487ed5-bb73-4406-9414-3000ca628a2a" alt="Image" width="20%" height="20%">
+</div>
 
 진단명은 총 7가지가 있습니다. 
 
