@@ -92,7 +92,6 @@ Chest location은 청진기를 가져다 대는 부분을 의미합니다.
 진단명은 총 7가지가 있습니다. 
 
 # Ⅲ. Methodology
-# Ⅳ. Evaluation & Analysis
 ## 1. Overview
 - 분석에 기본적으로 필요한 파이썬 라이브러리를 가져옵니다.
 ```py
@@ -176,5 +175,5 @@ import os
 <div align="center">
   <img src="https://github.com/YUUIJIN/YUUIJIN.github.io/assets/134063047/aa087064-7b09-4471-ae2b-1cde42521e98" alt="Image" width="70%" height="70%">
 </div>
-
+# Ⅳ. Evaluation & Analysis
 
