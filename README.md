@@ -95,79 +95,86 @@ Chest location은 청진기를 가져다 대는 부분을 의미합니다.
 # Ⅳ. Evaluation & Analysis
 ## 1. Overview
 - 분석에 기본적으로 필요한 파이썬 라이브러리를 가져옵니다.
-  
-      import wave
-      import pandas as pd
-      import numpy as np
-      import matplotlib.pyplot as plt
-      import os
-      %matplotlib inline
-  
+```py
+import wave
+import pandas as pd
+import numpy as np
+import matplotlib.pyplot as plt
+import os
+%matplotlib inline
+``` 
 - 데이터셋이 들어있는 파일을 확인합니다.
-
-      os.listdir('Respiratory_Sound_Database')
-
+```py
+ os.listdir('Respiratory_Sound_Database')
+```
 -  df_no_diagnosis: 환자번호 + 질병 외의 정보
 -  diagnosis: 환자 번호 + 질병 정보
 -  df: 위 두 변수를 환자 번호 기준으로 합침
-  
-       df_no_diagnosis = pd.read_csv('Respiratory_Sound_Database/demographic_info.txt', names = ['Patient number', 'Age', 'Sex', 'Adult BMI(kg/m^2)', 'Child Weight(kg)','Child Height(cm)'], delimiter = ' ')
-       diagnosis = pd.read_csv('Respiratory_Sound_Database/patient_diagnosis.csv', names = ['Patient number', 'Diagnosis'])
-       df = df_no_diagnosis.join(diagnosis.set_index('Patient number'), on = 'Patient number', how = 'left')
-
+  ```py
+  df_no_diagnosis = pd.read_csv('Respiratory_Sound_Database/demographic_info.txt', names = ['Patient number', 'Age', 'Sex', 'Adult BMI(kg/m^2)', 'Child Weight(kg)','Child Height(cm)'], delimiter = ' ')
+  diagnosis = pd.read_csv('Respiratory_Sound_Database/patient_diagnosis.csv', names = ['Patient number', 'Diagnosis'])
+  df = df_no_diagnosis.join(diagnosis.set_index('Patient number'), on = 'Patient number', how = 'left')
+```
 ![image](https://github.com/YUUIJIN/YUUIJIN.github.io/assets/134063047/f1f0911f-6b8f-4e11-94d3-305f98f0c0a2)
 
 - df에서 각 질병 빈도수를 counting 합니다.
-  
-       df['Diagnosis'].value_counts()
-
+  ```py
+  df['Diagnosis'].value_counts()
+  ```
 - txt 파일로 되어있는 audio 파일을 전처리합니다.
 - filenames: 확장자 제거 후 list에 저장
 - Extract_Annotation_Data: 파일 이름과 파일 주소를 가져와 데이터를 추출하는 함수
-  
-       root = 'Respiratory_sound_Database/audio_and_txt_files'
-       filenames = [s.split('.')[0] for s in os.listdir(path = root) if '.txt' in s]
-       def Extract_Annotation_Data(file_name, root):
-           tokens = file_name.split('_')
-           recording_info = pd.DataFrame(data = [tokens], columns = ['Patient number', 'Recording index', 'Chest location', 'Acquisition mode', 'Recording equipment'])
-           recording_annotations = pd.read_csv(os.path.join(root, file_name + '.txt'), names = ['Start', 'End', 'Crackles', 'Wheezes'],delimiter = '\t')
-        return (recording_info, recording_annotations)
-       i_list = []
-       rec_annotations = []
-       rec_annotations_dict = {}
-  
-       for s in filenames:
-           (i,a) = Extract_Annotation_Data(s,root)
-           i_list.append(i)
-           rec_annotations.append(a)
-           rec_annotations_dict[s] = a
-       recording_info = pd.concat(i_list, axis = 0)
-       recording_info.head()
-
-![image](https://github.com/YUUIJIN/YUUIJIN.github.io/assets/134063047/bf0ac7cd-094e-44c2-ba39-4e46b21ab196)
+  ```py
+  root = 'Respiratory_sound_Database/audio_and_txt_files'
+  filenames = [s.split('.')[0] for s in os.listdir(path = root) if '.txt' in s]
+  def Extract_Annotation_Data(file_name, root):
+      tokens = file_name.split('_')
+      recording_info = pd.DataFrame(data = [tokens], columns = ['Patient number', 'Recording index', 'Chest location', 'Acquisition mode', 'Recording equipment'])
+      recording_annotations = pd.read_csv(os.path.join(root, file_name + '.txt'), names = ['Start', 'End', 'Crackles', 'Wheezes'],delimiter = '\t')
+      return (recording_info, recording_annotations)
+  i_list = []
+  rec_annotations = []
+  rec_annotations_dict = {}
+  for s in filenames:
+       (i,a) = Extract_Annotation_Data(s,root)
+       i_list.append(i)
+       rec_annotations.append(a)
+       rec_annotations_dict[s] = a
+  recording_info = pd.concat(i_list, axis = 0)
+  recording_info.head()
+  ```
+<div align="center">
+  <img src="https://github.com/YUUIJIN/YUUIJIN.github.io/assets/134063047/bf0ac7cd-094e-44c2-ba39-4e46b21ab196" alt="Image" width="70%" height="70%">
+</div>
 
 - 환자별 호흡 파일에서 호흡 소리 중 crackle과 wheeze의 정보를 파악한 후, 데이터를 나열화합니다.
 - no_label_list: crackle과 wheeze 둘 다 없는 호흡
 - crack_list: crack만 있는 호흡
 - wheeze_list: wheeze만 있는 호흡
 - both_sym_list: 둘 다 있는 호흡
-  
-      no_label_list = []
-      crack_list = []
-      wheeze_list = []
-      both_sym_list = []
-      filename_list = []
-      for f in filenames:
-          d = rec_annotations_dict[f]
-          no_labels = len(d[(d['Crackles'] == 0) & (d['Wheezes'] == 0)].index)
-          n_crackles = len(d[(d['Crackles'] == 1) & (d['Wheezes'] == 0)].index)
-          n_wheezes = len(d[(d['Crackles'] == 0) & (d['Wheezes'] ==1)].index)
-          both_sym = len(d[(d['Crackles'] == 1) & (d['Wheezes'] == 1)].index)
-          no_label_list.append(no_labels)
-          crack_list.append(n_crackles)
-          wheeze_list.append(n_wheezes)
-          both_sym_list.append(both_sym)
-          filename_list.append(f)
-      file_label_df = pd.DataFrame(data = {'filename':filename_list, 'no label':no_label_list, 'crackles only':crack_list, 
+```py
+  no_label_list = []
+  crack_list = []
+  wheeze_list = []
+  both_sym_list = []
+  filename_list = []
+  for f in filenames:
+      d = rec_annotations_dict[f]
+      no_labels = len(d[(d['Crackles'] == 0) & (d['Wheezes'] == 0)].index)
+      n_crackles = len(d[(d['Crackles'] == 1) & (d['Wheezes'] == 0)].index)
+      n_wheezes = len(d[(d['Crackles'] == 0) & (d['Wheezes'] ==1)].index)
+      both_sym = len(d[(d['Crackles'] == 1) & (d['Wheezes'] == 1)].index)
+      no_label_list.append(no_labels)
+      crack_list.append(n_crackles)
+      wheeze_list.append(n_wheezes)
+      both_sym_list.append(both_sym)
+      filename_list.append(f)
+  file_label_df = pd.DataFrame(data = {'filename':filename_list, 'no label':no_label_list, 'crackles only':crack_list, 
                                      'wheezes only':wheeze_list, 'crackles and wheezees':both_sym_list})
-![image](https://github.com/YUUIJIN/YUUIJIN.github.io/assets/134063047/aa087064-7b09-4471-ae2b-1cde42521e98)
+```
+
+<div align="center">
+  <img src="https://github.com/YUUIJIN/YUUIJIN.github.io/assets/134063047/aa087064-7b09-4471-ae2b-1cde42521e98" alt="Image" width="70%" height="70%">
+</div>
+
+
