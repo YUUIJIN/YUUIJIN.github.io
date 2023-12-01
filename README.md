@@ -260,5 +260,10 @@ threshold = 5
 print('Fraction of samples less than {} seconds {}'.format(threshold, np.sum(duration_list < threshold)/len(duration_list)))
 ```
 
+<div align="center">
+  <img src="https://github.com/YUUIJIN/YUUIJIN.github.io/assets/134063047/4e663208-7305-42f3-989e-055c678a5d29" alt="Image" width="40%" height="40%">
+</div>
+
+
 # Ⅳ. Evaluation & Analysis
 
