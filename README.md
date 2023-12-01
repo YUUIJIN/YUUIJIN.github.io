@@ -242,7 +242,7 @@ def slice_data(start, end, raw_data, sample_rate):
     end_ind = min(int(end * sample_rate), max_ind)
     return raw_data[start_ind: end_ind]
 ```
-- 다음으로 호흡 주기 분포도를 확인 해봅니다.
+## 3. Distribution of respiratory cycle lengths
 ```py
 duration_list = []
 for i in range(len(rec_annotations)):
@@ -264,6 +264,8 @@ print('Fraction of samples less than {} seconds {}'.format(threshold, np.sum(dur
 <div align="center">
   <img src="https://github.com/YUUIJIN/YUUIJIN.github.io/assets/134063047/4e663208-7305-42f3-989e-055c678a5d29" alt="Image" width="40%" height="40%">
 </div>
+
+## 4. Mel spectrogram implementation (With VTLP)
 
 
 # Ⅳ. Evaluation & Analysis
