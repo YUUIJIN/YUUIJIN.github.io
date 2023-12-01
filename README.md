@@ -101,6 +101,9 @@ import numpy as np
 import matplotlib.pyplot as plt
 import os
 %matplotlib inline
+import wave
+import math
+import scipy.io.wavfile as wf
 ``` 
 - 데이터셋이 들어있는 파일을 확인합니다.
 ```py
@@ -175,5 +178,69 @@ import os
 <div align="center">
   <img src="https://github.com/YUUIJIN/YUUIJIN.github.io/assets/134063047/aa087064-7b09-4471-ae2b-1cde42521e98" alt="Image" width="70%" height="70%">
 </div>
+
+- read_wav_file: 주어진 파일을 열고, 데이터를 추출한 뒤 목표 샘플링 속도로 리샘플링
+- resample: 현재 샘플링 속도와 목표 샘플링 속도에 따라 데이터를 리샘플링
+- extract2FloatArr: 주어진 wav파일로부터 음성 데이터 추출. bps(비트 당 샘플)에 따라 데이터 정규화
+- read24bitwave: 24비트 wav 파일에서 데이터 추출 후 16비트로 반환
+- bitrate_channels: wav 파일에서 bps와 채널 수 추출
+- slice_data: 시간 범위 설정
+```py
+w_labels = file_label_df[(file_label_df['crackles only'] != 0) | (file_label_df['wheezes only'] != 0) | 
+                         (file_label_df['crackles and wheezes'] != 0)]
+
+def read_wav_file(str_filename,target_rate):
+    wav = wave.open(str_filename, mode = 'r')
+    (sample_rate, data) = extract2FloatArr(wav,str_filename)
+    
+    if (sample_rate != target_rate):
+        (_, data) = resample(sample_rate, data, target_rate)
+        
+        wav.close()
+        return(target_rate, data.astype(np.float32))
+    
+def resample(current_rate, data, target_rate):
+    x_original = np.linspace(0,100,len(data))
+    x_resampled = np.linspace(0,100,int(len(data) * (target_rate / current_rate)))
+    resampled = np.interp(x_resampled, x_original, data)
+    return (target_rate, resampled.astype(np.float32))
+
+def extract2FloatArr(lp_wave, str_filename):
+    (bps,channels) = bitrate_channels(lp_wave)
+    
+    if bps in [1, 2, 4]:
+        (rate, data) = wf.read(str_filename)
+        divisor_dict = {1:255, 2:32768}
+        if bps in [1,2]:
+            divisor = divisor_dict[bps]
+            data = np.divide(data, float(divisor))
+        return (rate, data)
+    
+    elif bps == 3:
+        return read24bitwave(lp_wave)
+    
+    else:
+          raise Exception('Unrecognized wave format: {} bytes per samples'.format(bps))
+            
+def read24bitwave(lp_wave):
+    nFrames = lp_wave.getnframes()
+    buf = lp_wave.readframes(nFrames)
+    reshaped = np.frombuffer(buf, np.int8).reshape(nFrames,-1)
+    short_output = np.empty((nFrames, 2), dtype = np.int8)
+    short_output[:,:] = reshaped[:, -2:]
+    short_output = short_output.view(np.int16)
+    return (lp_wave.getframerate(), np.divide(short_output, 32768).reshape(-1))   
+
+def bitrate_channels(lp_wave):
+    bps = (lp_wave.getsampwidth() / lp_wave.getnchannels())
+    return (bps, lp_wave.getnchannels())
+
+def slice_data(start, end, raw_data, sample_rate):
+    max_ind = len(raw_data)
+    start_ind = min(int(start * sample_rate),max_ind)
+    end_ind = min(int(end * sample_rate), max_ind)
+    return raw_data[start_ind: end_ind]
+```
+
 # Ⅳ. Evaluation & Analysis
 
