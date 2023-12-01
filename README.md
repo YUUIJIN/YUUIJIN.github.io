@@ -179,6 +179,7 @@ import scipy.io.wavfile as wf
   <img src="https://github.com/YUUIJIN/YUUIJIN.github.io/assets/134063047/aa087064-7b09-4471-ae2b-1cde42521e98" alt="Image" width="70%" height="70%">
 </div>
 
+## 2. Utility functions for reading .wav files
 - read_wav_file: 주어진 파일을 열고, 데이터를 추출한 뒤 목표 샘플링 속도로 리샘플링
 - resample: 현재 샘플링 속도와 목표 샘플링 속도에 따라 데이터를 리샘플링
 - extract2FloatArr: 주어진 wav파일로부터 음성 데이터 추출. bps(비트 당 샘플)에 따라 데이터 정규화
