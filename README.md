@@ -241,6 +241,24 @@ def slice_data(start, end, raw_data, sample_rate):
     end_ind = min(int(end * sample_rate), max_ind)
     return raw_data[start_ind: end_ind]
 ```
+- 다음으로 호흡 주기 분포도를 확인 해봅니다.
+```py
+duration_list = []
+for i in range(len(rec_annotations)):
+    current = rec_annotations[i]
+    duration = current['End'] - current['Start']
+    duration_list.extend(duration)
+
+duration_list = np.array(duration_list)
+plt.hist(duration_list, bins = 50)
+plt.xlabel('Time(sec)')
+plt.ylabel('Number')
+plt.title('Respiration Cycle distribution')
+print('longest cycle:{}'.format(max(duration_list)))
+print('shortest cycle{}'.format(min(duration_list)))
+threshold = 5
+print('Fraction of samples less than {} seconds {}'.format(threshold, np.sum(duration_list < threshold)/len(duration_list)))
+```
 
 # Ⅳ. Evaluation & Analysis
 
