@@ -9,7 +9,19 @@
 - Goal
 ## Ⅱ. Datasets
 ## Ⅲ. Methodology
+- Overview
+- Utility functions for reading .wav files
+- Distribution of respiratory cycle length
+- Mel spectrogram implementation (With VTLP)
+- Data prepation utility functions
+- Data augmentation
+- Utility used to import all training samples
+- Data pipline
 ## Ⅳ. Evaluation & Analysis
+- CNN
+- Training
+- Model Evaluation
+- Testing and Result
 ## Ⅴ. Related Work
 ## Ⅵ. Conclusion: Discussion
 # Ⅰ. Proposal (option A)
@@ -18,7 +30,7 @@
 ## Goal
 저희의 최종적인 목표는 딥러닝 분류 모델의 구조적 이해와 구현입니다. 저희가 음성 분류에 사용할 구조는 CNN(Convolution Neural Network)입니다. wav파일(음성 파일)이 CNN을 통해 학습되는 정확한 알고리즘의 이해에 초점을 맞추려 합니다. 또한 이러한 음성 처리는 신호 처리 과정이 포함되기에 Spectrogram이나 (예를 들어 MFCC(Mel-Frequency Cepstal Coeffcient)) FFT, Pwelch 등 기본적인 신호 처리 개념의 이해를 목적으로 합니다. 모델 구현을 위해 호흡음 분류에 사용되는 데이터셋인 디지털 청진기와 의학적 녹음 기술을 사용한 wav 파일, 환자 진단 list를 사용합니다. 환자 진단 list에는 각 환자별 천식, 폐렴, 기관지염과 같은 호흡기 질환들이 분류되어 있습니다. 데이터셋의 일부를 활용해 모델을 train하며 데이터셋의 나머지를 활용해 모델을 test할 계획입니다.
 # Ⅱ. Datasets
-## 데이터셋은 코딩이 아닌 다운받은 원본 파일을 확인하는 식으로 보여드리겠습니다.
+## 데이터셋은 원본 파일을 확인하는 식으로 보여드리겠습니다.
 
 <div align="center">
   <img src="https://github.com/YUUIJIN/YUUIJIN.github.io/assets/149877341/9135c1f2-4525-480c-8eea-94e8a1b4069b" alt="Image" width="60%" height="60%">
