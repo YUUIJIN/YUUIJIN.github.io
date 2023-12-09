@@ -471,5 +471,10 @@ mel_banks = FFT2MelSpectrogram(f[:175], Sxx[:175,:], sample_rate, 50, vtlp_param
 plt.imshow(mel_banks, aspect = 1)
 plt.title('With VTLP')
 ```
+
+<div align="center">
+  <img src="https://github.com/YUUIJIN/YUUIJIN.github.io/assets/134063047/339dcd4c-7d13-4b9b-97a0-a16dffa1a836" alt="Image" width="100%" height="100%">
+</div>
+
 # Ⅳ. Evaluation & Analysis
 
