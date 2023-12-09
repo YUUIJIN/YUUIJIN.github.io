@@ -361,5 +361,24 @@ def label2onehot(c_w_flags):
         return [0,0,0,1]
 ```
 
+## 5. Data prepation utility functions
+- 이 함수는 wav 데이터에서 특정 주기(slice data)를 기반으로 샘플을 추출합니다.
+- 이 함수의 출력인 sample_data = [파일이름, (오디오 데이터, 호흡주기 시작, 호흡주기 끝, crackle여부 wheeze여부)]입니다.
+```py
+def get_sound_samples(recording_annotations, file_name, root, sample_rate):
+    sample_data = [file_name]
+    (rate, data) = read_wav_file(os.path.join(root, file_name + '.wav'), sample_rate)
+    
+    for i in range(len(recording_annotations.index)):
+        row = recording_annotations.loc[i]
+        start = row['Start']
+        end = row['End']
+        crackles = row['Crackles']
+        wheezes = row['Wheezes']
+        audio_chunk = slice_data(start, end, data, rate)
+        sample_data.append((audio_chunk, start,end,crackles,wheezes))
+    return sample_data
+```
+
 # Ⅳ. Evaluation & Analysis
 
