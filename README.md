@@ -724,7 +724,8 @@ model.add(Dropout(0.5))
 model.add(Dense(512, activation = 'relu'))
 model.add(Dense(4, activation = 'softmax'))
 
-opt = optimizers.Adam(lr=0.0001, beta_1=0.9, beta_2=0.999, epsilon=None, decay=0.00, amsgrad=False)
+opt = optimizers.Adam(learning_rate=0.0001, beta_1=0.9, beta_2=0.999, epsilon=None, amsgrad=False)
+opt = tf.keras.optimizers.legacy.Adam(learning_rate=0.0001, beta_1=0.9, beta_2=0.999, epsilon=None, decay=0.00, amsgrad=False)
 
 model.compile(optimizer =  opt , loss = 'categorical_crossentropy', metrics = ['acc'])
 ```
