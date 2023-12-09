@@ -805,3 +805,7 @@ print(confusion_matrix(labels, predictions))
 
 # V. Conclusion: Discussion
 # VI. Reference
+- https://davinci-ai.tistory.com/29
+- https://white-joy.tistory.com/9
+- https://www.kaggle.com/code/eatmygoose/cnn-detection-of-wheezes-and-crackles/notebook
+- https://wkddmswh99.tistory.com/10 
