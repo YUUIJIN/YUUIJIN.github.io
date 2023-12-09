@@ -379,7 +379,7 @@ def get_sound_samples(recording_annotations, file_name, root, sample_rate):
         sample_data.append((audio_chunk, start,end,crackles,wheezes))
     return sample_data
 ```
-- 이 함수는 wav 데이터의 길이를 설정하여 분할하고, zero padding을 합니다.
+- 이 함수는 wav 데이터의 길이를 설정하여 분할합니다.
 ```py
 def split_and_pad(original, desiredLength, sampleRate):
     output_buffer_length = int(desiredLength * sampleRate)
@@ -397,6 +397,22 @@ def split_and_pad(original, desiredLength, sampleRate):
         output.append((copy, original[1], original[2]))
         src_start += length
     return output
+```
+-이 함수는 zero padding된 데이터를 생성합니다.
+```py
+def generate_padded_samples(source, output_length):
+    copy = np.zeros(output_length, dtype = np.float32)
+    src_length = len(source)
+    frac = src_length / output_length
+    if(frac < 0.5):
+        #tile forward sounds to fill empty space
+        cursor = 0
+        while(cursor + src_length) < output_length:
+            copy[cursor:(cursor + src_length)] = source[:]
+            cursor += src_length
+    else:
+        copy[:src_length] = source[:]
+    return copy
 ```
 # Ⅳ. Evaluation & Analysis
 
