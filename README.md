@@ -410,7 +410,7 @@ def split_and_pad(original, desiredLength, sampleRate):
         src_start += length
     return output
 ```
--이 함수는 zero padding된 데이터를 생성합니다.
+- 이 함수는 zero padding된 데이터를 생성합니다.
 ```py
 def generate_padded_samples(source, output_length):
     copy = np.zeros(output_length, dtype = np.float32)
