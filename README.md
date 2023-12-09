@@ -363,7 +363,7 @@ def label2onehot(c_w_flags):
 
 ## 5. Data prepation utility functions
 - 이 함수는 wav 데이터에서 특정 주기(slice data)를 기반으로 샘플을 추출합니다.
-- 이 함수의 출력인 sample_data = [파일이름, (오디오 데이터, 호흡주기 시작, 호흡주기 끝, crackle여부 wheeze여부)]입니다.
+- 이 함수의 출력인 sample_data = [파일이름, (wav 데이터, 호흡주기 시작, 호흡주기 끝, crackle여부 wheeze여부)]입니다.
 ```py
 def get_sound_samples(recording_annotations, file_name, root, sample_rate):
     sample_data = [file_name]
@@ -379,6 +379,24 @@ def get_sound_samples(recording_annotations, file_name, root, sample_rate):
         sample_data.append((audio_chunk, start,end,crackles,wheezes))
     return sample_data
 ```
-
+- 이 함수는 wav 데이터의 길이를 설정하여 분할하고, zero padding을 합니다.
+```py
+def split_and_pad(original, desiredLength, sampleRate):
+    output_buffer_length = int(desiredLength * sampleRate)
+    soundclip = original[0]
+    n_samples = len(soundclip)
+    total_length = n_samples / sampleRate #length of cycle in seconds
+    n_slices = int(math.ceil(total_length / desiredLength)) #get the minimum number of slices needed
+    samples_per_slice = n_samples // n_slices
+    src_start = 0 #Staring index of the samples to copy from the original buffer
+    output = [] #Holds the resultant slices
+    for i in range(n_slices):
+        src_end = min(src_start + samples_per_slice, n_samples)
+        length = src_end - src_start
+        copy = generate_padded_samples(soundclip[src_start:src_end], output_buffer_length)
+        output.append((copy, original[1], original[2]))
+        src_start += length
+    return output
+```
 # Ⅳ. Evaluation & Analysis
 
