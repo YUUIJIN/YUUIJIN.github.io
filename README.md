@@ -476,5 +476,61 @@ plt.title('With VTLP')
   <img src="https://github.com/YUUIJIN/YUUIJIN.github.io/assets/134063047/339dcd4c-7d13-4b9b-97a0-a16dffa1a836" alt="Image" width="100%" height="100%">
 </div>
 
+## 7. Utility used to import all training samples
+- scikit-learn 라이브러리에서 train_test_split을 가져옵니다. 
+- extract_all_training_samples는 음성 데이터로부터 훈련과 테스트 데이터를 추출하는 함수입니다.
+```py
+from sklearn.model_selection import train_test_split
+
+def extract_all_training_samples(filenames, annotation_dict, root, target_rate, desired_length, train_test_ratio = 0.2):
+    cycle_list = []
+    for file in filenames:
+        data = get_sound_samples(annotation_dict[file], file, root, target_rate)
+        cycles_with_labels = [(d[0], d[3], d[4]) for d in data[1:]]
+        cycle_list.extend(cycles_with_labels)
+    
+    no_labels = [c for c in cycle_list if ((c[1] == 0) & (c[2] == 0))]
+    c_only = [c for c in cycle_list if ((c[1] == 1) & (c[2] == 0))] 
+    w_only = [c for c in cycle_list if ((c[1] == 0) & (c[2] == 1))]
+    c_w = [c for c in cycle_list if ((c[1] == 1) & (c[2] == 1))]
+    
+    none_train, none_test = train_test_split(no_labels, test_size = train_test_ratio)
+    c_train, c_test  = train_test_split(c_only, test_size = train_test_ratio)
+    w_train, w_test  = train_test_split(w_only, test_size = train_test_ratio)
+    c_w_train, c_w_test  = train_test_split(c_w, test_size = train_test_ratio)
+    
+    w_stretch = w_train + augment_list(w_train, target_rate, 10 , 1) #
+    c_w_stretch = c_w_train + augment_list(c_w_train , target_rate, 10 , 1) 
+    
+    # CNN을 활용할 수 있도록 호흡 주기를 일정한 길이로 나누는 과정
+    # 이렇게 하면 모델이 쉽게 처리할 수 있음
+    vtlp_alpha = [0.9,1.1]
+    vtlp_upper_freq = [3200,3800]
+    
+    train_none  = (split_and_pad_and_apply_mel_spect(none_train, desired_length, target_rate) +
+                   split_and_pad_and_apply_mel_spect(none_train, desired_length, target_rate, vtlp_alpha))
+    
+    train_c = (split_and_pad_and_apply_mel_spect(c_train, desired_length, target_rate) + 
+               split_and_pad_and_apply_mel_spect(c_train, desired_length, target_rate, vtlp_alpha, vtlp_upper_freq, n_repeats = 3) ) #original samples + VTLP
+    
+    train_w = (split_and_pad_and_apply_mel_spect(w_stretch, desired_length, target_rate) + 
+               split_and_pad_and_apply_mel_spect(w_stretch , desired_length, target_rate, vtlp_alpha , vtlp_upper_freq, n_repeats = 4)) #(original samples + time stretch) + VTLP
+    
+    train_c_w = (split_and_pad_and_apply_mel_spect(c_w_stretch, desired_length, target_rate) + 
+                 split_and_pad_and_apply_mel_spect(c_w_stretch, desired_length, target_rate, vtlp_alpha , vtlp_upper_freq, n_repeats = 7)) #(original samples + time stretch * 2) + VTLP
+    
+    train_dict = {'none':train_none,'crackles':train_c,'wheezes':train_w, 'both':train_c_w}
+    
+    #test section 
+    test_none  = split_and_pad_and_apply_mel_spect(none_test, desired_length, target_rate)
+    test_c = split_and_pad_and_apply_mel_spect(c_test, desired_length, target_rate)
+    test_w = split_and_pad_and_apply_mel_spect(w_test, desired_length, target_rate)
+    test_c_w = split_and_pad_and_apply_mel_spect(c_w_test, desired_length, target_rate)
+    
+    test_dict = {'none':test_none,'crackles':test_c,'wheezes':test_w, 'both':test_c_w}
+    
+    return [train_dict, test_dict]
+```
+
 # Ⅳ. Evaluation & Analysis
 
