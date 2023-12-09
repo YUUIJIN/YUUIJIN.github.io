@@ -575,5 +575,9 @@ print_sample_count(test_clips)
   <img src="https://github.com/YUUIJIN/YUUIJIN.github.io/assets/134063047/8f3b47df-b991-4410-a71b-9f9d7d67e5bb" alt="Image" width="25%" height="25%">
 </div>
 
+- 훈련 셋에서 추출한 하나의 예시를 Mel spectrogram으로 그려보겠습니다.
+```py
+
+```
 # Ⅳ. Evaluation & Analysis
 
