@@ -682,7 +682,7 @@ class feed_all():
 
 # Ⅳ. Evaluation & Analysis
 ## 1. CNN
-- batch size: 128, epochs: 5로 설정합니다. (Underfitting이 우려되지만 연산 시간 문제로 epoch를 비교적 낮게 설정했습니다.)
+- batch size: 128, epochs: 5로 설정합니다. (Underfitting이 우려되지만 연산 시간 문제로 epoch를 비교적 낮게 설정했습니다.
 - Conv2D, MaxPool2D, Dense, Dropout layer를 사용하며, padding은 활성화합니다.
 - 활성화 함수로는 ReLU를 사용합니다.
 ```py
@@ -739,4 +739,18 @@ stats = model.fit(x=train_gen.generate_keras(batch_size),
                   validation_data=test_gen.generate_keras(batch_size),
                   validation_steps=test_gen.n_available_samples() // batch_size,
                   epochs=n_epochs)
+```
+## 3. Model Evaluation
+```py
+plt.figure(figsize = (15,5))
+plt.subplot(1,2,1)
+plt.title('Accuracy')
+plt.plot(stats.history['acc'], label = 'training acc')
+plt.plot(stats.history['val_acc'], label = 'validation acc')
+plt.legend()
+plt.subplot(1,2,2)
+plt.plot(stats.history['loss'], label = 'training loss')
+plt.plot(stats.history['val_loss'], label = 'validation loss')
+plt.legend()
+plt.title('Loss')
 ```
