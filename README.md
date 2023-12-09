@@ -764,3 +764,16 @@ plt.title('Loss')
   <img src="https://github.com/YUUIJIN/YUUIJIN.github.io/assets/134063047/790d60f0-b905-4d45-8c00-0aaa372866a4" alt="Image" width="100%" height="100%">
 </div>
 
+## 4. Testing and Result
+```py
+test_set = test_gen.generate_keras(test_gen.n_available_samples()).__next__()
+predictions = model.predict(test_set[0])
+predictions = np.argmax(predictions, axis = 1)
+labels = np.argmax(test_set[1], axis = 1)
+```
+```py
+from sklearn.metrics import classification_report, confusion_matrix
+
+print(classification_report(labels, predictions, target_names = ['none','crackles','wheezes','both']))
+print(confusion_matrix(labels, predictions))
+```
