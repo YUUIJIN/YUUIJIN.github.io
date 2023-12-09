@@ -22,8 +22,8 @@
 - Training
 - Model Evaluation
 - Testing and Result
-# V. Conclusion: Discussion
-# VI. Reference
+## V. Conclusion: Discussion
+## VI. Reference
 
 # Ⅰ. Proposal (option A)
 ## Motivation
