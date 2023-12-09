@@ -759,6 +759,11 @@ stats = model.fit(x=train_gen.generate_keras(batch_size),
 </div>
 
 ## 3. Model Evaluation
+- Epoch의 횟수가 늘어남에 따라 acc가 늘어나고 loss가 줄어드는 것을 확인했습니다.
+- Training의 acc는 약 0.67까지 나타났지만, 만약 epoch의 값을 더 높이면 더 높은 값을 나타낼 것으로 예상됩니다.
+- Validation은 학습이 이미 완료된 모델을 검증하기 위한 데이터셋입니다.
+- Accuracy 그래프를 봤을 때, epoch가 2.0 ~ 3.1 정도에서 training의 acc는 증가하지만 validation의 acc는 감소합니다. 여기서 과적합(overfitting)되었다고 볼 수 있었지만 이후 3.1 ~ 4.0까지 다시 증가하는 것을 보아 모델을 신뢰할 수 있었습니다.
+- Loss 그래프에서도 마찬가지입니다. 그래서 저희는 이렇게 학습된 모델로 후에 테스트를 진행하였습니다.
 ```py
 plt.figure(figsize = (15,5))
 plt.subplot(1,2,1)
@@ -778,6 +783,9 @@ plt.title('Loss')
 </div>
 
 ## 4. Testing and Result
+- 혼동행렬을 기반으로, Precision, Recall, F1 score, support를 활용해 평가를 진행하였습니다.
+- 모든 평가 지표 값에서 noise가 없는 호흡 소리(none)에서의 값이 가장 높았고, 이것은 깨끗한 호흡음일 수록 모델이 분류하기 더 쉽다는 의미입니다.
+- Wheeze 소리는 Crackle 소리에 비해 모든 평가 지표 값이 낮은데, 처음 데이터셋에 Crackles는 1864개, Wheezes는 886개이므로 학습이 덜 되었기 때문인 것 같습니다.
 ```py
 test_set = test_gen.generate_keras(test_gen.n_available_samples()).__next__()
 predictions = model.predict(test_set[0])
