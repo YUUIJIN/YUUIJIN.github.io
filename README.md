@@ -740,6 +740,11 @@ stats = model.fit(x=train_gen.generate_keras(batch_size),
                   validation_steps=test_gen.n_available_samples() // batch_size,
                   epochs=n_epochs)
 ```
+
+<div align="center">
+  <img src="https://github.com/YUUIJIN/YUUIJIN.github.io/assets/134063047/6f8e4876-668c-47e9-b371-3dabdfaab1c9" alt="Image" width="100%" height="100%">
+</div>
+
 ## 3. Model Evaluation
 ```py
 plt.figure(figsize = (15,5))
