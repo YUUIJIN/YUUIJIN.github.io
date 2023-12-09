@@ -577,7 +577,28 @@ print_sample_count(test_clips)
 
 - 훈련 셋에서 추출한 하나의 예시를 Mel spectrogram으로 그려보겠습니다.
 ```py
-
+sample_height = training_clips['none'][0][0].shape[0]
+sample_width = training_clips['none'][0][0].shape[1]
+ind = 1
+plt.figure(figsize = (10,10))
+plt.subplot(4,1,1)
+plt.imshow(training_clips['none'][ind][0].reshape(sample_height, sample_width))
+plt.title('None')
+plt.subplot(4,1,2)
+plt.imshow(training_clips['crackles'][ind][0].reshape(sample_height, sample_width))
+plt.title('Crackles')
+plt.subplot(4,1,3)
+plt.imshow(training_clips['wheezes'][ind][0].reshape(sample_height, sample_width))
+plt.title('Wheezes')
+plt.subplot(4,1,4)
+plt.imshow(training_clips['both'][ind][0].reshape(sample_height, sample_width))
+plt.title('Both')
+plt.tight_layout()
 ```
+
+<div align="center">
+  <img src="https://github.com/YUUIJIN/YUUIJIN.github.io/assets/134063047/4dbe0511-e343-4e67-84e5-3b5fe26ac1ed" alt="Image" width="75%" height="75%">
+</div>
+
 # Ⅳ. Evaluation & Analysis
 
