@@ -414,6 +414,7 @@ def generate_padded_samples(source, output_length):
         copy[:src_length] = source[:]
     return copy
 ```
+## 6. Data augmentation
 - gen_time_strech 함수는 입력받은 original데이터를 무작위로 늘리거나 줄입니다.
 - augment_list 함수는 audio_with_labels에 있는 데이터를 gen_time_stretch를 이용하여 증강시킵니다.
 - split_and_pad_and_apply_mel_spect 함수는 데이터를 여러 번 분할과 padding하고, 멜 스펙트로그램으로 변환하며 VTLP 함수를 적용합니다. 
@@ -446,6 +447,29 @@ def split_and_pad_and_apply_mel_spect(original, desiredLength, sampleRate, VTLP_
             freq_result = [sample2MelSpectrum(d, sampleRate, 50, VTLP_params) for d in lst_result] #Freq domain
             output.extend(freq_result)
     return output
+```
+- 이 코드는 주어진 데이터에 대해 Mel spectrogram으로 시각화합니다.
+```py
+str_file = filenames[11]
+lp_test = get_sound_samples(rec_annotations_dict[str_file], str_file, root, 22000)
+lp_cycles = [(d[0], d[3], d[4]) for d in lp_test[1:]]
+soundclip = lp_cycles[1][0]
+
+n_window = 512
+sample_rate = 22000
+(f, t, Sxx) = scipy.signal.spectrogram(soundclip, fs = 22000, nfft= n_window, nperseg=n_window)
+print(sum(f < 7000))
+
+plt.figure(figsize = (20,10))
+plt.subplot(1,2,1)
+mel_banks = FFT2MelSpectrogram(f[:175], Sxx[:175,:], sample_rate, 50)[1]
+plt.imshow(mel_banks, aspect = 1)
+plt.title('No VTLP')
+
+plt.subplot(1,2,2)
+mel_banks = FFT2MelSpectrogram(f[:175], Sxx[:175,:], sample_rate, 50, vtlp_params = (0.9,3500))[1]
+plt.imshow(mel_banks, aspect = 1)
+plt.title('With VTLP')
 ```
 # Ⅳ. Evaluation & Analysis
 
