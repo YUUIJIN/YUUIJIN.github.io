@@ -679,5 +679,53 @@ class feed_all():
         pivot = np.random.randint(n_col)
         return ((np.roll(fft, pivot, axis = 1)), fft_info[1])
 ```
+
 # Ⅳ. Evaluation & Analysis
+## 1. CNN
+- batch size: 128, epochs: 15로 설정합니다. 
+- Conv2D, MaxPool2D, Dense, Dropout layer를 사용하며, padding은 활성화합니다.
+- 활성화 함수로는 ReLU를 사용합니다.
+```py
+batch_size = 128
+n_epochs = 15
+```
+```py
+from keras import Sequential
+from keras import optimizers
+from keras import backend as K
+from keras.layers import Conv2D, Dense, Activation, Dropout, MaxPool2D, Flatten, LeakyReLU
+import tensorflow as tf
+K.clear_session()
+
+model = Sequential()
+model.add(Conv2D(128, [7,11], strides = [2,2], padding = 'SAME', input_shape = (sample_height, sample_width, 1)))
+model.add(LeakyReLU(alpha = 0.1))
+model.add(MaxPool2D(padding = 'SAME'))
+
+model.add(Conv2D(256, [5,5], padding = 'SAME'))
+model.add(LeakyReLU(alpha = 0.1))
+model.add(MaxPool2D(padding = 'SAME'))
+
+model.add(Conv2D(256, [1,1], padding = 'SAME'))
+model.add(Conv2D(256, [3,3], padding = 'SAME'))
+model.add(LeakyReLU(alpha = 0.1))
+model.add(MaxPool2D(padding = 'SAME'))
+
+model.add(Conv2D(512, [1,1], padding = 'SAME'))
+model.add(Conv2D(512, [3,3], padding = 'SAME',activation = 'relu'))
+model.add(Conv2D(512, [1,1], padding = 'SAME'))
+model.add(Conv2D(512, [3,3], padding = 'SAME', activation = 'relu'))
+model.add(MaxPool2D(padding = 'SAME'))
+model.add(Flatten())
+
+model.add(Dense(4096, activation = 'relu'))
+model.add(Dropout(0.5))
+
+model.add(Dense(512, activation = 'relu'))
+model.add(Dense(4, activation = 'softmax'))
+
+opt = optimizers.Adam(lr=0.0001, beta_1=0.9, beta_2=0.999, epsilon=None, decay=0.00, amsgrad=False)
+
+model.compile(optimizer =  opt , loss = 'categorical_crossentropy', metrics = ['acc'])
+```
 
