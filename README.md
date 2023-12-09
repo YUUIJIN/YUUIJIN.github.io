@@ -558,6 +558,18 @@ test_clips = sample_dict[1]
 ```
 - 훈련과 테스트 셋의 구성을 확인해보겠습니다.
 ```py
+def print_sample_count(src_dict):
+    print('none:{}\ncrackles:{}\nwheezes:{}\nboth:{}'.format(len(src_dict['none']),
+                                                        len(src_dict['crackles']),
+                                                        len(src_dict['wheezes']),
+                                                        len(src_dict['both'])))
+
+print('Samples Available')
+print('[Training set]')
+print_sample_count(training_clips)
+print('')
+print('[Test set]')
+print_sample_count(test_clips)
 ```
 # Ⅳ. Evaluation & Analysis
 
