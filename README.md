@@ -779,5 +779,5 @@ print(confusion_matrix(labels, predictions))
 ```
 
 <div align="center">
-  <img src="https://github.com/YUUIJIN/YUUIJIN.github.io/assets/134063047/db6fad84-9b40-4baa-9b6f-fb5111aa0ad8" alt="Image" width="50%" height="50%">
+  <img src="https://github.com/YUUIJIN/YUUIJIN.github.io/assets/134063047/4340504e-67f5-4521-8ae0-d48b709e92e3" alt="Image" width="50%" height="50%">
 </div>
