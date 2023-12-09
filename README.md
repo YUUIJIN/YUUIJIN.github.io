@@ -682,12 +682,12 @@ class feed_all():
 
 # Ⅳ. Evaluation & Analysis
 ## 1. CNN
-- batch size: 128, epochs: 15로 설정합니다. 
+- batch size: 128, epochs: 5로 설정합니다. (Underfitting이 우려되지만 연산 시간 문제로 epoch를 비교적 낮게 설정했습니다.)
 - Conv2D, MaxPool2D, Dense, Dropout layer를 사용하며, padding은 활성화합니다.
 - 활성화 함수로는 ReLU를 사용합니다.
 ```py
 batch_size = 128
-n_epochs = 15
+n_epochs = 5
 ```
 ```py
 from keras import Sequential
@@ -729,4 +729,14 @@ opt = tf.keras.optimizers.legacy.Adam(learning_rate=0.0001, beta_1=0.9, beta_2=0
 
 model.compile(optimizer =  opt , loss = 'categorical_crossentropy', metrics = ['acc'])
 ```
-
+## 2. Training
+- 아래 코드는 fit_generator 함수를 이용하여 모델을 학습합니다.
+- generator: 학습 데이터를 생성합니다.
+- steps_per_epoch: 한 epoch 동안 사용할 단계 수입니다.
+```py
+stats = model.fit(x=train_gen.generate_keras(batch_size),
+                  steps_per_epoch=train_gen.n_available_samples() // batch_size,
+                  validation_data=test_gen.generate_keras(batch_size),
+                  validation_steps=test_gen.n_available_samples() // batch_size,
+                  epochs=n_epochs)
+```
