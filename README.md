@@ -777,3 +777,7 @@ from sklearn.metrics import classification_report, confusion_matrix
 print(classification_report(labels, predictions, target_names = ['none','crackles','wheezes','both']))
 print(confusion_matrix(labels, predictions))
 ```
+
+<div align="center">
+  <img src="https://github.com/YUUIJIN/YUUIJIN.github.io/assets/134063047/db6fad84-9b40-4baa-9b6f-fb5111aa0ad8" alt="Image" width="100%" height="100%">
+</div>
