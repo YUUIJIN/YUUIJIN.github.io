@@ -285,7 +285,7 @@ def sample2MelSpectrum(cycle_info, sample_rate, n_filters, vtlp_params):
     if (diff == 0):
       print('Error: sample data is completely empty')
     labels = [cycle_info[1], cycle_info[2]]  #crackles, wheezes flags
-    return (np.reshape(norm_mel_log, (n_filters,Sxx.shape[1],1)).astype(np.float32), label2onehot(labels))
+    return (np.reshape(norm_mel_log, (n_filters,Sxx.shape[1],1)).astype(np.float32), label2oneshot(labels))
 ```
 - Freq2Mel과 Mel2Freq 함수는 Mel 스케일과 주파수를 상호변환하는 함수입니다.
 ```py
@@ -493,7 +493,11 @@ def extract_all_training_samples(filenames, annotation_dict, root, target_rate, 
     c_only = [c for c in cycle_list if ((c[1] == 1) & (c[2] == 0))] 
     w_only = [c for c in cycle_list if ((c[1] == 0) & (c[2] == 1))]
     c_w = [c for c in cycle_list if ((c[1] == 1) & (c[2] == 1))]
-    
+
+    #none:3642
+    #crackles:1864 
+    #wheezes:886
+    #both:506
     none_train, none_test = train_test_split(no_labels, test_size = train_test_ratio)
     c_train, c_test  = train_test_split(c_only, test_size = train_test_ratio)
     w_train, w_test  = train_test_split(w_only, test_size = train_test_ratio)
@@ -531,6 +535,17 @@ def extract_all_training_samples(filenames, annotation_dict, root, target_rate, 
     
     return [train_dict, test_dict]
 ```
-
+- 훈련과 테스트셋을 나눕니다.
+- 최종적으로 training_clips와 test_clips에 데이터를 담고 있습니다. 
+```py
+target_sample_rate = 22000 
+sample_length_seconds = 5
+sample_dict = extract_all_training_samples(filenames, rec_annotations_dict, root, target_sample_rate, sample_length_seconds) #sample rate lowered to meet memory constraints
+training_clips = sample_dict[0]
+test_clips = sample_dict[1]
+```
+- 훈련과 테스트 셋의 구성을 확인해보겠습니다.
+```py
+```
 # Ⅳ. Evaluation & Analysis
 
