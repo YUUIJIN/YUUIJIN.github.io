@@ -285,7 +285,7 @@ def sample2MelSpectrum(cycle_info, sample_rate, n_filters, vtlp_params):
     if (diff == 0):
       print('Error: sample data is completely empty')
     labels = [cycle_info[1], cycle_info[2]]  #crackles, wheezes flags
-    return (np.reshape(norm_mel_log, (n_filters,Sxx.shape[1],1)).astype(np.float32), label2oneshot(labels))
+    return (np.reshape(norm_mel_log, (n_filters,Sxx.shape[1],1)).astype(np.float32), label2onehot(labels))
 ```
 - Freq2Mel과 Mel2Freq 함수는 Mel 스케일과 주파수를 상호변환하는 함수입니다.
 ```py
@@ -345,6 +345,18 @@ def FFT2MelSpectrogram(f, Sxx, sample_rate, n_filterbanks, vtlp_params = None):
         
     mel_spectrum = np.matmul(filter_banks, Sxx)
     return (mel_freq[1:-1], np.log10(mel_spectrum  + float(10e-12)))
+
+def label2onehot(c_w_flags):
+    c = c_w_flags[0]
+    w = c_w_flags[1]
+    if((c == False) & (w == False)):
+        return [1,0,0,0]
+    elif((c == True) & (w == False)):
+        return [0,1,0,0]
+    elif((c == False) & (w == True)):
+        return [0,0,1,0]
+    else:
+        return [0,0,0,1]
 ```
 -
 ```py
