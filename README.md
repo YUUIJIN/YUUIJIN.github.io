@@ -759,3 +759,8 @@ plt.plot(stats.history['val_loss'], label = 'validation loss')
 plt.legend()
 plt.title('Loss')
 ```
+
+<div align="center">
+  <img src="https://github.com/YUUIJIN/YUUIJIN.github.io/assets/134063047/790d60f0-b905-4d45-8c00-0aaa372866a4" alt="Image" width="100%" height="100%">
+</div>
+
