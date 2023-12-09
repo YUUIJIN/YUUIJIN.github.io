@@ -131,7 +131,7 @@ import scipy.io.wavfile as wf
   df = df_no_diagnosis.join(diagnosis.set_index('Patient number'), on = 'Patient number', how = 'left')
 ```
 <div align="center">
-  <img src="https://github.com/YUUIJIN/YUUIJIN.github.io/assets/134063047/f1f0911f-6b8f-4e11-94d3-305f98f0c0a2" alt="Image" width="20%" height="20%">
+  <img src="https://github.com/YUUIJIN/YUUIJIN.github.io/assets/134063047/f1f0911f-6b8f-4e11-94d3-305f98f0c0a2" alt="Image" width="70%" height="70%">
 </div>
 
 - df에서 각 질병 빈도수를 counting 합니다.
