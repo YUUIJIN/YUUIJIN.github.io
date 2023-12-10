@@ -805,6 +805,7 @@ print(confusion_matrix(labels, predictions))
 </div>
 
 # V. Conclusion: Discussion
+- 상기 제시된 내용은 깃허브에서 많이 참고하였습니다. 저희의 본 프로젝트 목적은 딥러닝의 기초, CNN의 이해 및 음성 신호처리의 이해였고, 프로젝트를 통해 많은 것을 배울 수 있었습니다. 지금까지 진행은 Epoch가 레퍼런스보다 많이 낮아 결과적으로 그닥 좋지 않은 성능을 보였지만, 차후 더 좋은 환경을 맞이할 수 있다면 Epoch를 더 높여 모델 성능을 비교하고자 합니다. 환자의 특정 호흡소리 분류를 통해 의사가 진단을 내릴 수 있을 수는 있겠지만, 현재 저희가 구현한 모델과 성능 상태로 보았을 땐 의료계에서 쓰이긴 매우 위험할 것으로 보입니다.
 # VI. Reference
 - https://davinci-ai.tistory.com/29
 - https://white-joy.tistory.com/9
