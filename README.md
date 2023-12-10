@@ -693,6 +693,7 @@ class feed_all():
 - batch size: 128, epochs: 5로 설정합니다. (Underfitting이 우려되지만 연산 시간 문제로 epoch를 비교적 낮게 설정했습니다.
 - Conv2D, MaxPool2D, Dense, Dropout layer를 사용하며, padding은 활성화합니다.
 - 활성화 함수로는 ReLU를 사용합니다.
+- Netron으로 모델 시각화 한 사진 첨부하겠습니다.
 ```py
 batch_size = 128
 n_epochs = 5
