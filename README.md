@@ -3,6 +3,10 @@
 # Members
       유의진 해양융합공학과 dbdmlwls1224@naver.com
       윤정상 해양융합공학과 jeongsang9907@gmail.com
+# Role
+      유의진: Code implement, Graph analysis, Dataset Processing
+      윤정상: Code implement, Graph analysis, Write up
+      
 # Index
 ## Ⅰ. Proposal
 - Motivation
