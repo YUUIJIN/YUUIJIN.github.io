@@ -733,6 +733,11 @@ opt = tf.keras.optimizers.legacy.Adam(learning_rate=0.0001, beta_1=0.9, beta_2=0
 
 model.compile(optimizer =  opt , loss = 'categorical_crossentropy', metrics = ['acc'])
 ```
+
+<div align="center">
+  <img src="https://github.com/YUUIJIN/YUUIJIN.github.io/assets/134063047/63be99ef-f539-449c-bf9f-86513a94b085" alt="Image" width="40%" height="10%">
+</div>
+
 ## 2. Training
 - 아래 코드는 fit_generator 함수를 이용하여 모델을 학습합니다.
 - generator: 학습 데이터를 생성합니다.
