@@ -323,7 +323,7 @@ def VTLP_shift(mel_freq, alpha, f_high, sample_rate):
     warped_mel = np.where(mel_freq <= threshold_freq, lower, higher)
     return warped_mel.astype(np.float32)
 ```
--
+- MFCC (Mel frequency cepstral coefficient)를 계산하는데 사용되는 Mel filter bank를 생성합니다.
 ```py
 def GenerateMelFilterBanks(mel_space_freq, fft_bin_frequencies):
     n_filters = len(mel_space_freq) - 2
@@ -344,7 +344,7 @@ def GenerateMelFilterBanks(mel_space_freq, fft_bin_frequencies):
         coeff.append(filter_bank)
     return np.array(coeff, dtype = np.float32)
 ```
--
+- Melspectrogram으로 변환하는 함수입니다.
 ```py
 def FFT2MelSpectrogram(f, Sxx, sample_rate, n_filterbanks, vtlp_params = None):
     (max_mel, min_mel)  = (Freq2Mel(max(f)), Freq2Mel(min(f)))
@@ -360,20 +360,7 @@ def FFT2MelSpectrogram(f, Sxx, sample_rate, n_filterbanks, vtlp_params = None):
         
     mel_spectrum = np.matmul(filter_banks, Sxx)
     return (mel_freq[1:-1], np.log10(mel_spectrum  + float(10e-12)))
-
-def label2onehot(c_w_flags):
-    c = c_w_flags[0]
-    w = c_w_flags[1]
-    if((c == False) & (w == False)):
-        return [1,0,0,0]
-    elif((c == True) & (w == False)):
-        return [0,1,0,0]
-    elif((c == False) & (w == True)):
-        return [0,0,1,0]
-    else:
-        return [0,0,0,1]
 ```
--
 ```py
 def label2onehot(c_w_flags):
     c = c_w_flags[0]
