@@ -258,6 +258,7 @@ def slice_data(start, end, raw_data, sample_rate):
     return raw_data[start_ind: end_ind]
 ```
 ## 3. Distribution of respiratory cycle lengths
+- 호흡 주기의 분포를 확인합니다.
 ```py
 duration_list = []
 for i in range(len(rec_annotations)):
