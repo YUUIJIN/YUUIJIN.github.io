@@ -811,3 +811,6 @@ print(confusion_matrix(labels, predictions))
 - https://white-joy.tistory.com/9
 - https://www.kaggle.com/code/eatmygoose/cnn-detection-of-wheezes-and-crackles/notebook
 - https://wkddmswh99.tistory.com/10 
+
+# YOUTUBE
+https://youtu.be/XLDUkRTJzsA
